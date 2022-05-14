@@ -1,0 +1,119 @@
+﻿<div class="send-request">
+    <div class="request-sender-title">
+        @if (Mode == RequestMode.Create)
+        {
+            <div class="icon">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            <div class="section-title">
+                Create
+            </div>
+        }
+        else if (Mode == RequestMode.Read)
+        {
+            <div class="icon">
+                <i class="fa-solid fa-eye"></i>
+            </div>
+            <div class="section-title">
+                Read
+            </div>
+        }
+        else if (Mode == RequestMode.Update)
+        {
+            <div class="icon">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
+            <div class="section-title">
+                Update
+            </div>
+        }
+        else if (Mode == RequestMode.Delete)
+        {
+            <div class="icon">
+                <i class="fa-solid fa-minus"></i>
+            </div>
+            <div class="section-title">
+                Delete
+            </div>
+        }
+    </div>
+    <div class="request-sender-body">
+        @if (Mode == RequestMode.Create)
+        {
+            <div class="parameter">
+                <div class="parameter-name">
+                    Id
+                </div>
+                <div class="parameter-value">
+                    <AntDesign.InputNumber @bind-Value="_selectedId" />
+                </div>
+            </div>
+        }
+        else if (Mode == RequestMode.Read)
+        {
+            <div class="parameter">
+                <div class="parameter-name">
+                    Id
+                </div>
+                <div class="parameter-value">
+                    <AntDesign.InputNumber @bind-Value="_selectedId" />
+                </div>
+            </div>
+        }
+        else if (Mode == RequestMode.Update)
+        {
+            <div class="parameter">
+                <div class="parameter-name">
+                    Id
+                </div>
+                <div class="parameter-value">
+                    <AntDesign.InputNumber @bind-Value="_selectedId" />
+                </div>
+            </div>
+        }
+        else if (Mode == RequestMode.Delete)
+        {
+            <div class="parameter">
+                <div class="parameter-name">
+                    Id
+                </div>
+                <div class="parameter-value">
+                    <AntDesign.InputNumber @bind-Value="_selectedId" />
+                </div>
+            </div>
+        }
+        <button class="btn @_buttonClass custom-button">Execute</button>
+    </div>
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public RequestMode Mode { get; set; }
+
+    private int _selectedId;
+    private string _buttonClass = "btn-primary";
+
+    protected override void OnInitialized()
+    {
+        switch (Mode)
+        {
+            case RequestMode.Create:
+                _buttonClass = "btn-success";
+                break;
+            case RequestMode.Read:
+                _buttonClass = "btn-info";
+                break;
+            case RequestMode.Update:
+                _buttonClass = "btn-warning";
+                break;
+            case RequestMode.Delete:
+                _buttonClass = "btn-danger";
+                break;
+        }
+    }
+
+}
