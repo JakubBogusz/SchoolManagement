@@ -28,31 +28,26 @@ namespace SchoolManagement.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //if (!optionsBuilder.IsConfigured)
-            //{
-            //    optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SchoolManagementDB");
-            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>(entity =>
-            {
-                entity.ToTable("Address");
+            //modelBuilder.Entity<Address>(entity =>
+            //{
+            //    entity.ToTable("Address");
 
-                entity.Property(e => e.City).HasMaxLength(50);
+            //    entity.Property(e => e.City).HasMaxLength(50);
 
-                entity.Property(e => e.Country).HasMaxLength(50);
+            //    entity.Property(e => e.Country).HasMaxLength(50);
 
-                entity.Property(e => e.PostCode).HasMaxLength(50);
+            //    entity.Property(e => e.PostCode).HasMaxLength(50);
 
-                entity.Property(e => e.Street).HasMaxLength(100);
+            //    entity.Property(e => e.Street).HasMaxLength(100);
 
-                entity.HasOne(d => d.Student)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.StudentId)
-                    .HasConstraintName("FK_dbo.Address_dbo.Student_Id");
-            });
+            //    entity.HasOne(d => d.Student)
+            //        .WithOne(p => p.Address)
+            //        .HasConstraintName("FK_dbo.Address_dbo.Student_Id");
+            //});
 
             modelBuilder.Entity<Course>(entity =>
             {

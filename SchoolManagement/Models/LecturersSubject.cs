@@ -9,7 +9,7 @@ namespace SchoolManagement.Models
         public int SubjectId { get; set; }
         public DateTime? CreatedOn { get; set; }
 
-        public virtual Lecturer Lecturer { get; set; } = null!;
+        public virtual Course Lecturer { get; set; } = null!;
         public virtual Subject Subject { get; set; } = null!;
     }
 }

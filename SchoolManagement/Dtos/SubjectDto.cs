@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SchoolManagement.Models
+﻿namespace SchoolManagement.Dtos
 {
-    public partial class Subject
+    public class SubjectDto
     {
         public int Id { get; set; }
         public string SubjectName { get; set; }

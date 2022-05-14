@@ -7,7 +7,6 @@ namespace SchoolManagement.Models
     {
         public Student()
         {
-            Addresses = new HashSet<Address>();
             Enrollments = new HashSet<Enrollment>();
             Payments = new HashSet<Payment>();
         }
@@ -17,7 +16,7 @@ namespace SchoolManagement.Models
         public string FirstName { get; set; } = null!;
         public DateTime? EnrollmentDate { get; set; }
 
-        public virtual ICollection<Address> Addresses { get; set; }
+        //public virtual Address Address { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
     }

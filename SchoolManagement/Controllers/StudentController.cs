@@ -28,13 +28,13 @@ namespace SchoolManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<StudentDto>>> GetStudents()
+        public async Task<ActionResult<List<StudentRequestDto>>> GetStudents()
         {
             return Ok(await _studentsRepo.ListAllAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentDto>> GetStudent(int id)
+        public async Task<ActionResult<StudentRequestDto>> GetStudent(int id)
         {
             var student = await _studentsRepo.GetByIdAsync(id);
             if (student == null)
@@ -43,9 +43,9 @@ namespace SchoolManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Student>>> AddStudent(StudentDto studentDto)
+        public async Task<ActionResult<List<Student>>> AddStudent(StudentRequestDto studentDto)
         {
-            var student = _mapper.Map<StudentDto, Student>(studentDto);
+            var student = _mapper.Map<StudentRequestDto, Student>(studentDto);
             _studentsRepo.Add(student);
             await _context.SaveChangesAsync();
 
@@ -53,17 +53,16 @@ namespace SchoolManagement.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<Student>>> UpdateHero(Student request)
+        public async Task<ActionResult<List<Student>>> UpdateStudent(StudentDto request)
         {
             var dbStudent = await _context.Students.FindAsync(request.Id);
             if (dbStudent == null)
-                return BadRequest("dbStudent not found in database.");
+                return BadRequest("Student not found in database.");
 
             dbStudent.FirstName = request.FirstName;
             dbStudent.LastName = request.LastName;
             dbStudent.EnrollmentDate = request.EnrollmentDate;
  
-
             await _context.SaveChangesAsync();
 
             return Ok(await _context.Students.ToListAsync());
