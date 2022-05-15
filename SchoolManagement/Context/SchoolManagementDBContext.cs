@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using SchoolManagement.Models;
 
 namespace SchoolManagement.Context
@@ -32,25 +35,24 @@ namespace SchoolManagement.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Address>(entity =>
-            //{
-            //    entity.ToTable("Address");
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.ToTable("Address");
 
-            //    entity.Property(e => e.City).HasMaxLength(50);
+                entity.Property(e => e.City).HasMaxLength(50);
 
-            //    entity.Property(e => e.Country).HasMaxLength(50);
+                entity.Property(e => e.Country).HasMaxLength(50);
 
-            //    entity.Property(e => e.PostCode).HasMaxLength(50);
+                entity.Property(e => e.PostCode).HasMaxLength(50);
 
-            //    entity.Property(e => e.Street).HasMaxLength(100);
-
-            //    entity.HasOne(d => d.Student)
-            //        .WithOne(p => p.Address)
-            //        .HasConstraintName("FK_dbo.Address_dbo.Student_Id");
-            //});
+                entity.Property(e => e.Street).HasMaxLength(100);
+            });
 
             modelBuilder.Entity<Course>(entity =>
             {
+                entity.HasIndex(e => e.Code, "IX_course_code")
+                    .IsUnique();
+
                 entity.Property(e => e.Code).HasMaxLength(10);
 
                 entity.Property(e => e.CourseDescription).HasMaxLength(100);
@@ -152,11 +154,20 @@ namespace SchoolManagement.Context
 
             modelBuilder.Entity<Student>(entity =>
             {
+                entity.HasIndex(e => new { e.Id, e.AddressId }, "IX_Student_AddressId")
+                    .IsUnique();
+
                 entity.Property(e => e.EnrollmentDate).HasColumnType("datetime");
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.Students)
+                    .HasForeignKey(d => d.AddressId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_dbo.Student_dboAddress._Id");
             });
 
             modelBuilder.Entity<StudentGrade>(entity =>
@@ -183,6 +194,8 @@ namespace SchoolManagement.Context
 
             modelBuilder.Entity<Subject>(entity =>
             {
+                entity.HasIndex(e => e.SubjectName, "IX_SubjectName");
+
                 entity.Property(e => e.Description).HasMaxLength(100);
 
                 entity.Property(e => e.Field).HasMaxLength(50);

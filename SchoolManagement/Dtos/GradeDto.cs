@@ -1,4 +1,4 @@
-﻿namespace SchoolManagement.Controllers
+﻿namespace SchoolManagement.Dtos
 {
     public class GradeDto
     {

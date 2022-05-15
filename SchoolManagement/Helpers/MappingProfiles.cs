@@ -14,6 +14,13 @@ namespace SchoolManagement.Helpers
 
             CreateMap<Course, CourseDto>().ReverseMap();
 
+            CreateMap<Enrollment, EnrollmentDto>().ReverseMap();
+
+            CreateMap<Grade, GradeDto>().ReverseMap();
+
+            CreateMap<Payment, PaymentDto>().ReverseMap();
+
+            CreateMap<Subject, SubjectDto>().ReverseMap();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SchoolManagement.Models
         public int StudentId { get; set; }
         public DateTime? CreatedOn { get; set; }
 
-        public virtual Course Course { get; set; }
-        public virtual Student Student { get; set; }
+        public virtual Course Course { get; set; } = null!;
+        public virtual Student Student { get; set; } = null!;
     }
 }
