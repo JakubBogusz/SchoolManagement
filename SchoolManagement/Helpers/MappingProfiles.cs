@@ -8,6 +8,8 @@ namespace SchoolManagement.Helpers
     {
         public MappingProfiles()
         {
+            CreateMap<Student, StudentDto>().ReverseMap();
+
             CreateMap<Student, StudentRequestDto>().ReverseMap();
 
             CreateMap<Lecturer, LecturerDto>().ReverseMap();
