@@ -11,11 +11,11 @@ namespace SchoolManagement.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
         private readonly IMapper _mapper;
 
-        public PaymentController(SchoolManagementDBContext context,
+        public PaymentController(BootcampDBContext context,
             IMapper mapper)
         {
             _mapper = mapper;
@@ -42,16 +42,16 @@ namespace SchoolManagement.Controllers
         {
             var payment = _mapper.Map<PaymentDto, Payment>(dto);
 
-            var alreadyPayed = _context.Payments.Any(pay => pay.StudentId == payment.StudentId && pay.CourseId == payment.CourseId);
-            if (!alreadyPayed)
-            {
-                _context.Payments.Add(payment);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                new Exception("Student already payed for this course!");
-            }
+            //var alreadyPayed = _context.Payments.Any(pay => pay.StudentId == payment.StudentId && pay.CourseId == payment.CourseId);
+            //if (!alreadyPayed)
+            //{
+            //    _context.Payments.Add(payment);
+            //    await _context.SaveChangesAsync();
+            //}
+            //else
+            //{
+            //    new Exception("Student already payed for this course!");
+            //}
 
             return Ok(await _context.Payments.ToListAsync());
         }

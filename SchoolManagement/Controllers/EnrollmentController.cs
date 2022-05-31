@@ -11,11 +11,11 @@ namespace SchoolManagement.Controllers
     [ApiController]
     public class EnrollmentController : ControllerBase
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
         private readonly IMapper _mapper;
 
-        public EnrollmentController(SchoolManagementDBContext context,
+        public EnrollmentController(BootcampDBContext context,
             IMapper mapper)
         {
             _mapper = mapper;

@@ -8,17 +8,14 @@ namespace SchoolManagement.Models
         public Student()
         {
             Enrollments = new HashSet<Enrollment>();
-            Payments = new HashSet<Payment>();
         }
 
         public int Id { get; set; }
-        public int? AddressId { get; set; }
-        public string LastName { get; set; } = null!;
         public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
         public DateTime? EnrollmentDate { get; set; }
+        public string Address { get; set; } = null!;
 
-        public virtual Address? Address { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace SchoolManagement.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
-        public GenericRepository(SchoolManagementDBContext context)
+        public GenericRepository(BootcampDBContext context)
         {
             _context = context;
         }

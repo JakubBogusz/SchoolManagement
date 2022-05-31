@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SchoolManagement.Models
 {
-    public partial class LecturersSubject
+    public partial class LecturerSubject
     {
         public int LecturerId { get; set; }
         public int SubjectId { get; set; }

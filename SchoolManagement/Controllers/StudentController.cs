@@ -12,13 +12,13 @@ namespace SchoolManagement.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
         private readonly IGenericRepository<Student> _studentsRepo;
 
         private readonly IMapper _mapper;
 
-        public StudentController(SchoolManagementDBContext context,
+        public StudentController(BootcampDBContext context,
             IGenericRepository<Student> studentsRepo,
             IMapper mapper)
         {

@@ -5,13 +5,15 @@ namespace SchoolManagement.Models
 {
     public partial class Payment
     {
+        public Payment()
+        {
+            Enrollments = new HashSet<Enrollment>();
+        }
+
         public int Id { get; set; }
-        public int CourseId { get; set; }
-        public int StudentId { get; set; }
-        public DateTime? DateOfPayment { get; set; }
+        public DateTime DateOfPayment { get; set; }
         public decimal Amount { get; set; }
 
-        public virtual Course Course { get; set; } = null!;
-        public virtual Student Student { get; set; } = null!;
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }

@@ -11,11 +11,11 @@ namespace SchoolManagement.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
         private readonly IMapper _mapper;
 
-        public CourseController(SchoolManagementDBContext context,
+        public CourseController(BootcampDBContext context,
             IMapper mapper)
         {
             _mapper = mapper;
@@ -33,7 +33,7 @@ namespace SchoolManagement.Controllers
         {
             var course= await _context.Courses.FindAsync(id);
             if (course == null)
-                return BadRequest("Hero not found.");
+                return BadRequest("Course not found.");
             return Ok(course);
         }
 
@@ -55,10 +55,9 @@ namespace SchoolManagement.Controllers
                 return BadRequest("Course not found in database.");
 
             dbCourse.CourseName = request.CourseName;
-            dbCourse.CourseDescription = request.CourseDescription;
+            dbCourse.Description = request.CourseDescription;
             dbCourse.Price = request.Price;
             dbCourse.Level = request.Level;
-            dbCourse.Code = request.Code;
             dbCourse.StartDate = request.StartDate;
             dbCourse.EndDate = request.EndDate;
 

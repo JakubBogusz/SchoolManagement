@@ -12,11 +12,11 @@ namespace SchoolManagement.Controllers
     [ApiController]
     public class LecturerController : ControllerBase
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
         private readonly IMapper _mapper;
 
-        public LecturerController(SchoolManagementDBContext context,
+        public LecturerController(BootcampDBContext context,
             IMapper mapper)
         {
             _mapper = mapper;

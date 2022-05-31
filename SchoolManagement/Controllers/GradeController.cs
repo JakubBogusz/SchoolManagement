@@ -10,11 +10,11 @@ namespace SchoolManagement.Controllers
     [ApiController]
     public class GradeController : ControllerBase
     {
-        private readonly SchoolManagementDBContext _context;
+        private readonly BootcampDBContext _context;
 
         private readonly IMapper _mapper;
 
-        public GradeController(SchoolManagementDBContext context,
+        public GradeController(BootcampDBContext context,
             IMapper mapper)
         {
             _mapper = mapper;

@@ -3,16 +3,14 @@ using System.Collections.Generic;
 
 namespace SchoolManagement.Models
 {
-    public partial class Grade
+    public partial class FinalScore
     {
         public int Id { get; set; }
-        public int SubjectId { get; set; }
         public int EnrollmentId { get; set; }
-        public decimal Value { get; set; }
-        public string Percent { get; set; } = null!;
+        public decimal Average { get; set; }
+        public decimal Grade { get; set; }
         public DateTime? Date { get; set; }
 
         public virtual Enrollment Enrollment { get; set; } = null!;
-        public virtual Subject Subject { get; set; } = null!;
     }
 }
