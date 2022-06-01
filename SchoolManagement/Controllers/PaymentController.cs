@@ -42,6 +42,11 @@ namespace SchoolManagement.Controllers
         {
             var payment = _mapper.Map<PaymentDto, Payment>(dto);
 
+            //var enrollment = await _context.Enrollments.FindAsync(id);
+            _context.Payments.Add(payment);
+            await _context.SaveChangesAsync();
+
+            //var isAlreadyEnrolled = _context.Enrollments.Any(enroll => enroll.CourseId == enrollment.CourseId && enroll.StudentId == enrollment.StudentId);
             //var alreadyPayed = _context.Payments.Any(pay => pay.StudentId == payment.StudentId && pay.CourseId == payment.CourseId);
             //if (!alreadyPayed)
             //{

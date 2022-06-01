@@ -120,7 +120,7 @@ namespace SchoolManagement.Migrations
                     b.Property<decimal>("Average")
                         .HasColumnType("decimal(3,2)");
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<int>("EnrollmentId")
@@ -144,7 +144,7 @@ namespace SchoolManagement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<int>("EnrollmentId")

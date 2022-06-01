@@ -77,11 +77,6 @@ namespace SchoolManagement.Context
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_dbo.Enrollment_dbo.Course_Id");
 
-                entity.HasOne(d => d.Payment)
-                    .WithMany(p => p.Enrollments)
-                    .HasForeignKey(d => d.PaymentId)
-                    .HasConstraintName("FK_dbo.Enrollment_dbo.Payments_Id");
-
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.Enrollments)
                     .HasForeignKey(d => d.StudentId)
@@ -94,9 +89,7 @@ namespace SchoolManagement.Context
 
                 entity.Property(e => e.Average).HasColumnType("decimal(3, 2)");
 
-                entity.Property(e => e.Date).HasColumnType("datetime");
-
-                entity.Property(e => e.Grade).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.LastUpdatedOn).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Enrollment)
                     .WithMany(p => p.FinalScores)
@@ -110,9 +103,9 @@ namespace SchoolManagement.Context
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
-                entity.Property(e => e.Percent).HasMaxLength(50);
+                entity.Property(e => e.GradeValue).HasColumnType("decimal(3, 2)");
 
-                entity.Property(e => e.Value).HasColumnType("decimal(3, 2)");
+                entity.Property(e => e.Percent).HasMaxLength(50);
 
                 entity.HasOne(d => d.Enrollment)
                     .WithMany(p => p.Grades)
@@ -158,6 +151,11 @@ namespace SchoolManagement.Context
                 entity.Property(e => e.Amount).HasColumnType("money");
 
                 entity.Property(e => e.DateOfPayment).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Enrollment)
+                    .WithMany(p => p.Payments)
+                    .HasForeignKey(d => d.EnrollmentId)
+                    .HasConstraintName("FK_dbo.Payment_dbo.Enrollment_Id");
             });
 
             modelBuilder.Entity<Student>(entity =>

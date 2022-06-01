@@ -3,8 +3,10 @@
     public class GradeDto
     {
         public int Id { get; set; }
-        public decimal Value { get; set; }
-        public string Comment { get; set; }
-        public string Percent { get; set; }
+        public int SubjectId { get; set; }
+        public int EnrollmentId { get; set; }
+        public decimal GradeValue { get; set; }
+        public string Percent { get; set; } = null!;
+        public DateTime? Date { get; set; }
     }
 }

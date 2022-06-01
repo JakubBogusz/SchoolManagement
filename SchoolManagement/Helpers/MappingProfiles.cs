@@ -23,6 +23,8 @@ namespace SchoolManagement.Helpers
             CreateMap<Payment, PaymentDto>().ReverseMap();
 
             CreateMap<Subject, SubjectDto>().ReverseMap();
+
+            CreateMap<FinalScore, FinalScoreDto>().ReverseMap();
         }
     }
 }

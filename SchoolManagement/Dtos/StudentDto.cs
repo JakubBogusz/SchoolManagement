@@ -6,9 +6,6 @@
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public DateTime? EnrollmentDate { get; set; }
-
-        public int AddressId { get; set; }
-        public AddressDto Address { get; set; }
-        public List<EnrollmentDto> Enrollments { get; set; }
+        public string Address { get; set; } = null!;
     }
 }
