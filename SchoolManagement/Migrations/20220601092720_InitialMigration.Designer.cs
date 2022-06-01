@@ -12,7 +12,7 @@ using SchoolManagement.Context;
 namespace SchoolManagement.Migrations
 {
     [DbContext(typeof(BootcampDBContext))]
-    [Migration("20220531220216_InitialMigration")]
+    [Migration("20220601092720_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,9 +96,6 @@ namespace SchoolManagement.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
@@ -122,14 +119,11 @@ namespace SchoolManagement.Migrations
                     b.Property<decimal>("Average")
                         .HasColumnType("decimal(3,2)");
 
-                    b.Property<DateTime?>("LastUpdatedOn")
-                        .HasColumnType("datetime");
-
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Grade")
-                        .HasColumnType("decimal(18,0)");
+                    b.Property<DateTime?>("LastUpdatedOn")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -146,11 +140,14 @@ namespace SchoolManagement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("LastUpdatedOn")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime");
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("GradeValue")
+                        .HasColumnType("decimal(3,2)");
 
                     b.Property<string>("Percent")
                         .IsRequired()
@@ -159,9 +156,6 @@ namespace SchoolManagement.Migrations
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(3,2)");
 
                     b.HasKey("Id");
 
@@ -231,7 +225,20 @@ namespace SchoolManagement.Migrations
                     b.Property<DateTime>("DateOfPayment")
                         .HasColumnType("datetime");
 
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Rate")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EnrollmentId");
+
+                    b.HasIndex(new[] { "Rate" }, "UQ__Payments__DF85D368B605C0D6")
+                        .IsUnique();
 
                     b.ToTable("Payments");
                 });
@@ -327,13 +334,6 @@ namespace SchoolManagement.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_dbo.Enrollment_dbo.Course_Id");
 
-                    b.HasOne("SchoolManagement.Models.Payment", "Student")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_dbo.Enrollment_dbo.Payments_Id");
-
                     b.HasOne("SchoolManagement.Models.Student", "Student")
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
@@ -342,8 +342,6 @@ namespace SchoolManagement.Migrations
                         .HasConstraintName("FK_dbo.Enrollment_dbo.Students_Id");
 
                     b.Navigation("Course");
-
-                    b.Navigation("Student");
 
                     b.Navigation("Student");
                 });
@@ -402,6 +400,18 @@ namespace SchoolManagement.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("SchoolManagement.Models.Payment", b =>
+                {
+                    b.HasOne("SchoolManagement.Models.Enrollment", "Enrollment")
+                        .WithMany("Payments")
+                        .HasForeignKey("EnrollmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Payment_dbo.Enrollment_Id");
+
+                    b.Navigation("Enrollment");
+                });
+
             modelBuilder.Entity("SchoolManagement.Models.Course", b =>
                 {
                     b.Navigation("Enrollments");
@@ -412,11 +422,8 @@ namespace SchoolManagement.Migrations
                     b.Navigation("FinalScores");
 
                     b.Navigation("Grades");
-                });
 
-            modelBuilder.Entity("SchoolManagement.Models.Payment", b =>
-                {
-                    b.Navigation("Enrollments");
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Student", b =>

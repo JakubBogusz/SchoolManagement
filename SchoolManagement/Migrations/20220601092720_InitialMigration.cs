@@ -43,20 +43,6 @@ namespace SchoolManagement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateOfPayment = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Amount = table.Column<decimal>(type: "money", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -95,7 +81,6 @@ namespace SchoolManagement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
@@ -105,12 +90,6 @@ namespace SchoolManagement.Migrations
                         name: "FK_dbo.Enrollment_dbo.Course_Id",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_dbo.Enrollment_dbo.Payments_Id",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -178,8 +157,7 @@ namespace SchoolManagement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EnrollmentId = table.Column<int>(type: "int", nullable: false),
                     Average = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
-                    Grade = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime", nullable: true)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -200,7 +178,7 @@ namespace SchoolManagement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
                     EnrollmentId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
+                    GradeValue = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     Percent = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
@@ -217,6 +195,28 @@ namespace SchoolManagement.Migrations
                         name: "FK_dbo.Grades_dbo.Subject_Id",
                         column: x => x.SubjectId,
                         principalTable: "Subject",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnrollmentId = table.Column<int>(type: "int", nullable: false),
+                    DateOfPayment = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Amount = table.Column<decimal>(type: "money", nullable: false),
+                    Rate = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_dbo.Payment_dbo.Enrollment_Id",
+                        column: x => x.EnrollmentId,
+                        principalTable: "Enrollment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -267,6 +267,17 @@ namespace SchoolManagement.Migrations
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_EnrollmentId",
+                table: "Payments",
+                column: "EnrollmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "UQ__Payments__DF85D368B605C0D6",
+                table: "Payments",
+                column: "Rate",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubjectName",
                 table: "Subject",
                 column: "SubjectName");
@@ -287,7 +298,7 @@ namespace SchoolManagement.Migrations
                 name: "LecturerSubjects");
 
             migrationBuilder.DropTable(
-                name: "Enrollment");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "Lecturer");
@@ -296,10 +307,10 @@ namespace SchoolManagement.Migrations
                 name: "Subject");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Enrollment");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Students");
