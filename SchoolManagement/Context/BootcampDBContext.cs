@@ -30,6 +30,11 @@ namespace SchoolManagement.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data source=(localdb)\\MSSQLLocalDB;Initial Catalog=BootcampDB;Encrypt=False");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -148,9 +153,14 @@ namespace SchoolManagement.Context
 
             modelBuilder.Entity<Payment>(entity =>
             {
+                entity.HasIndex(e => e.Rate, "UQ__Payments__DF85D368B605C0D6")
+                    .IsUnique();
+
                 entity.Property(e => e.Amount).HasColumnType("money");
 
                 entity.Property(e => e.DateOfPayment).HasColumnType("datetime");
+
+                entity.Property(e => e.Rate).HasMaxLength(50);
 
                 entity.HasOne(d => d.Enrollment)
                     .WithMany(p => p.Payments)

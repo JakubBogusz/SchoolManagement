@@ -9,6 +9,7 @@ namespace SchoolManagement.Models
         public int EnrollmentId { get; set; }
         public DateTime DateOfPayment { get; set; }
         public decimal Amount { get; set; }
+        public string Rate { get; set; } = null!;
 
         public virtual Enrollment Enrollment { get; set; } = null!;
     }
