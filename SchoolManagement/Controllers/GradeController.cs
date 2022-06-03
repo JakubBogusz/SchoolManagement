@@ -25,7 +25,11 @@ namespace SchoolManagement.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Grade>>> Get()
         {
-            return Ok(await _context.Grades.ToListAsync());
+            return Ok(await _context.Grades
+                .Include(x => x.Subject)
+                .Include(x => x.Enrollment)
+                    .ThenInclude(x => x.Student)
+                    .ToListAsync());
         }
 
 

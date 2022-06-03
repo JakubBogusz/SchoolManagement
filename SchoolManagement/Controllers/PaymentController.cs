@@ -42,21 +42,37 @@ namespace SchoolManagement.Controllers
         {
             var payment = _mapper.Map<PaymentDto, Payment>(dto);
 
-            //var enrollment = await _context.Enrollments.FindAsync(id);
+            var checkPreviousPayments = await _context.Payments.Where(x => x.EnrollmentId == dto.EnrollmentId).ToListAsync();
+
+            decimal currentAmountPayed = 0;
+            if (checkPreviousPayments != null && checkPreviousPayments.Count > 0)
+            {
+                foreach (var previousPayment in checkPreviousPayments)
+                {
+                    currentAmountPayed += previousPayment.Amount;
+                }
+            }
+            
+            var checkCoursePrice = await _context.Enrollments.Include(x => x.Course).FirstOrDefaultAsync(x => x.Id == dto.EnrollmentId);
+            if (checkCoursePrice != null)
+            {
+                var actualCoursePrice = checkCoursePrice.Course.Price;
+                if (currentAmountPayed >= actualCoursePrice)
+                {
+                    throw new Exception($"Student with EnrollmentId { dto.EnrollmentId } has already payed full price for this course!");
+                }
+
+                decimal nextPaymentFullAmount = currentAmountPayed + dto.Amount;
+                if (nextPaymentFullAmount > actualCoursePrice)
+                {
+                    //var extraMoneyPayed = nextPaymentFullAmount - actualCoursePrice;
+                    var monayToPayForCourse = actualCoursePrice - currentAmountPayed;
+                    throw new Exception($"You need to pay only { monayToPayForCourse }$ to fully cover Course price!");
+                }
+            }
+           
             _context.Payments.Add(payment);
             await _context.SaveChangesAsync();
-
-            //var isAlreadyEnrolled = _context.Enrollments.Any(enroll => enroll.CourseId == enrollment.CourseId && enroll.StudentId == enrollment.StudentId);
-            //var alreadyPayed = _context.Payments.Any(pay => pay.StudentId == payment.StudentId && pay.CourseId == payment.CourseId);
-            //if (!alreadyPayed)
-            //{
-            //    _context.Payments.Add(payment);
-            //    await _context.SaveChangesAsync();
-            //}
-            //else
-            //{
-            //    new Exception("Student already payed for this course!");
-            //}
 
             return Ok(await _context.Payments.ToListAsync());
         }

@@ -235,9 +235,6 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("EnrollmentId");
 
-                    b.HasIndex(new[] { "Rate" }, "UQ__Payments__DF85D368B605C0D6")
-                        .IsUnique();
-
                     b.ToTable("Payments");
                 });
 

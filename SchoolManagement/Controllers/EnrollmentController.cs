@@ -25,13 +25,21 @@ namespace SchoolManagement.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Enrollment>>> Get()
         {
-            return Ok(await _context.Enrollments.ToListAsync());
+            var result = await _context.Enrollments
+                .Include(x => x.Grades)
+                .Include(x => x.Course)
+                .Include(x => x.Student)
+                .Include(x => x.Payments)
+                .ToListAsync();
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Enrollment>> Get(int id)
         {
             var enroll = await _context.Enrollments.FindAsync(id);
+
             if (enroll == null)
                 return BadRequest("Enrollment not found.");
             return Ok(enroll);

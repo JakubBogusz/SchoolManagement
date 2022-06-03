@@ -55,7 +55,7 @@ namespace SchoolManagement.Controllers
                 return BadRequest("Course not found in database.");
 
             dbCourse.CourseName = request.CourseName;
-            dbCourse.Description = request.CourseDescription;
+            dbCourse.Description = request.Description;
             dbCourse.Price = request.Price;
             dbCourse.Level = request.Level;
             dbCourse.StartDate = request.StartDate;

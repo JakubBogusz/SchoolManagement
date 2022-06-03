@@ -272,12 +272,6 @@ namespace SchoolManagement.Migrations
                 column: "EnrollmentId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Payments__DF85D368B605C0D6",
-                table: "Payments",
-                column: "Rate",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SubjectName",
                 table: "Subject",
                 column: "SubjectName");

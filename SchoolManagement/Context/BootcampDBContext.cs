@@ -148,9 +148,6 @@ namespace SchoolManagement.Context
 
             modelBuilder.Entity<Payment>(entity =>
             {
-                entity.HasIndex(e => e.Rate, "UQ__Payments__DF85D368B605C0D6")
-                    .IsUnique();
-
                 entity.Property(e => e.Amount).HasColumnType("money");
 
                 entity.Property(e => e.DateOfPayment).HasColumnType("datetime");
