@@ -36,7 +36,10 @@ namespace SchoolManagement.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentRequestDto>> GetStudent(int id)
         {
-            var student = await _studentsRepo.GetByIdAsync(id);
+            var student = await _context.Students
+                .Include(x => x.Enrollments)
+                    .ThenInclude(x => x.Payments)
+                    .SingleOrDefaultAsync(x => x.Id == id);
             if (student == null)
                 return BadRequest("Student not found.");
             return Ok(student);

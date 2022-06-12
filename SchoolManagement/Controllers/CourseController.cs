@@ -31,7 +31,8 @@ namespace SchoolManagement.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> Get(int id)
         {
-            var course= await _context.Courses.FindAsync(id);
+            var course = await _context.Courses
+                .Include(e => e.Enrollments).SingleOrDefaultAsync(x => x.Id == id);
             if (course == null)
                 return BadRequest("Course not found.");
             return Ok(course);
